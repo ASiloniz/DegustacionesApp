@@ -1,10 +1,24 @@
 import React from 'react';
 
 export default class Degustacion extends React.Component {
+    
+    arrayBufferToBase64(buffer) {
+        var binary = '';
+        var bytes = [].slice.call(new Uint8Array(buffer));
+        bytes.forEach((b) => binary += String.fromCharCode(b));
+        return window.btoa(binary);
+    };
 
     render(){
         const { degustacion } = this.props;
         const { id, img, local, nombre, pais, region, sabor, size, tipo } = degustacion;
+
+        let base64Flag = '';
+        let imageString = '';
+        if(img){
+            console.log(img);
+        }
+
         return (
             <div className="card">
                 <div className="card-body">
@@ -13,7 +27,9 @@ export default class Degustacion extends React.Component {
                         <h5 className="card-title">{local}</h5>
                     </div>
                     <div className='row'>
-                        <img src={img} width='200' style={{margin: '20px'}}/>
+                        {img &&
+                            <img src={img} width='200' style={{margin: '20px'}}/>
+                        }
                     </div>
                     <div className='row'>
                         <div className='col-sm-3 col-lg-3'>

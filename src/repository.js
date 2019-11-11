@@ -23,11 +23,30 @@ export function addUserToApi(user) {
 }
 
 export function getDegustaciones() {
-    return axios.get(`${BASE_URL}/api/degustaciones`)
+    return axios.get(`${BASE_URL}/degustaciones`)
         .then(response => {
             return response.data;
         })
         .catch(err => {
             console.log(err.response ? err.response.data:err)
         })
+}
+
+export function addDegustacion(degustacion) {
+    console.log(`ADDING:`);
+    console.log(degustacion);
+    return axios.post(
+        `${BASE_URL}/degustaciones`,
+        degustacion,
+        {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        });
 }
