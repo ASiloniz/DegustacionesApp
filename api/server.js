@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function(req, res, callback) {
@@ -31,12 +32,16 @@ const upload = multer({
   },
   fileFilter
 });
- 
+let dirname = __dirname.slice(0, -3);
+console.log(dirname);
+console.log(path.join(dirname, 'uploads'));
+
+//HACER UPLOADS PUBLICA
+app.use('/uploads', express.static(path.join(dirname, 'uploads')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-
 
 /*
 DB NoSQL con MongoDB:
@@ -74,8 +79,33 @@ app.get(`/degustaciones`, (req, res) => {
   Degustacion.find()
     .exec()
     .then(docs => {
-      console.log(docs);
-      res.status(200).json(docs);
+      const response = {
+        count: docs.length,
+        degustaciones: docs.map(doc => {
+          return {
+            _id: doc._id,
+            nombre: doc.nombre,
+            local: doc.local,
+            tipo: doc.tipo,
+            pais: doc.pais,
+            region: doc.region,
+            size: doc.size,
+            sabor: doc.sabor,
+            img: doc.img,
+            request: {
+              type: 'GET',
+              url: `http://localhost:5000/degustaciones/${doc._id}`
+            }
+          };
+        })
+      };
+      //   if (docs.length >= 0) {
+      res.status(200).json(response);
+      //   } else {
+      //       res.status(404).json({
+      //           message: 'No entries found'
+      //       });
+      //   }
     })
     .catch( err => {
       console.log(err);
@@ -98,7 +128,7 @@ app.post(`/degustaciones`, upload.single('inputFotoDePerfil'), (req, res) => {
     region: req.body.region,
     size: req.body.size,
     sabor: req.body.sabor,
-    img: req.file.path
+    img: `http://localhost:5000/${req.file.path}`
   });
 
   // SAVE IN DB!
@@ -142,6 +172,45 @@ app.get(`/degustaciones/:degustacionId`, (req, res) => {
         error: err
       });
     });
+});
+
+// ELIMINAR DEGUSTACION
+app.delete('/degustaciones/:degustacionId', (req, res, next) => {
+  const id = req.params.degustacionId;
+  Degustacion.remove({_id: id})
+  .exec()
+  .then(result => {
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    res.status(500).json({
+      error: err
+    });
+  });
+});
+
+// UPDATE DEGUSTACION:
+app.patch('/degustaciones/:degustacionId', (req, res, next) => {
+  const id = req.params.degustacionId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+
+  Degustacion.update({_id: id}, {
+    $set: {
+      updateOps
+    }
+  })
+  .exec()
+  .then(result => {
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    res.status(500).json({
+      error: err
+    });
+  });
 });
 
 const PORT = 5000;

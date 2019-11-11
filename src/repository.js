@@ -32,6 +32,16 @@ export function getDegustaciones() {
         })
 }
 
+export function eliminarDegustacion(id) {
+    return axios.delete(`${BASE_URL}/degustaciones/${id}`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        })
+}
+
 export function addDegustacion(degustacion) {
     console.log(`ADDING:`);
     console.log(degustacion);

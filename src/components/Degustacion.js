@@ -1,20 +1,16 @@
 import React from 'react';
+import { eliminarDegustacion, getDegustaciones } from '../repository';
 
 export default class Degustacion extends React.Component {
-    
-    arrayBufferToBase64(buffer) {
-        var binary = '';
-        var bytes = [].slice.call(new Uint8Array(buffer));
-        bytes.forEach((b) => binary += String.fromCharCode(b));
-        return window.btoa(binary);
+
+    onClickEliminarDegustacion = (e) => {
+        eliminarDegustacion(this.props.degustacion._id);
     };
 
     render(){
         const { degustacion } = this.props;
         const { id, img, local, nombre, pais, region, sabor, size, tipo } = degustacion;
 
-        let base64Flag = '';
-        let imageString = '';
         if(img){
             console.log(img);
         }
@@ -26,6 +22,7 @@ export default class Degustacion extends React.Component {
                         <h4 className="card-title">{nombre}</h4>
                         <h5 className="card-title">{local}</h5>
                     </div>
+                    <button onClick={this.onClickEliminarDegustacion}>Eliminar Degustación</button>
                     <div className='row'>
                         {img &&
                             <img src={img} width='200' style={{margin: '20px'}}/>

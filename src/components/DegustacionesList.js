@@ -20,8 +20,10 @@ export default class DegustacionesList extends React.Component {
 
 
     render() {
-        const { degustaciones } =  this.state;
-        console.log(degustaciones);
+        const degustaciones =  this.state.degustaciones;
+        
+        const degustacionesList = degustaciones.degustaciones;
+        console.log(degustacionesList);
 
         return (
             <div className=" container">
@@ -29,8 +31,8 @@ export default class DegustacionesList extends React.Component {
                 <button className='btn btn-outline-primary'>
                     <NavLink activeClassName='' to="/addDegustacion" exact={true}>Añadir Degustación</NavLink>
                 </button>
-                {
-                    degustaciones.map((degustacion, index) => (
+                {degustacionesList &&
+                    degustacionesList.map((degustacion, index) => (
                         <Degustacion degustacion={degustacion} key={index} />
                     ))
                 }
