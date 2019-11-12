@@ -295,7 +295,7 @@ export default class RegisterComponent extends React.Component{
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
                                     </div>
-                                    <input className="form-control" placeholder="Repetir contraseña" type="contraseña" />
+                                    <input className="form-control" placeholder="Repetir contraseña" type="password" />
                                 </div>
                             </div>
                         </div>

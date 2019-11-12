@@ -21,7 +21,7 @@ export default class Degustacion extends React.Component {
         }
 
         return (
-            <div className='col-sm-4 col-lg-4'>
+            <div className='col-sm-5 col-md-5 col-lg-4'>
                 <img src={img} style={{height:'200px', width:'100%', marginBottom:'5px', marginTop: '10px'}}/>
                 <h5 className="card-title">{nombre}</h5>
                 <p className="card-title" style={{color:'#989898', fontSize: '19px'}}>{local}</p>
