@@ -21,6 +21,7 @@
     "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
     "css-loader": "0.28.4",
+    "jsonwebtoken": "^8.5.1",
     "live-server": "^1.2.1",
     "mongodb": "^3.3.3",
     "mongoose": "^5.7.9",

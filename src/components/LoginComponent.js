@@ -1,7 +1,20 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
+import { loginUserToApi } from '../repository';
 
 export default class LoginComponent extends React.Component{
+
+    loginUser = (e) => {
+        e.preventDefault();
+        let user = new FormData(e.target);
+
+        for (var key of user.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
+
+        loginUserToApi(user);
+    };
+
     render(){
         return(
             <div className="container" style={{height:'100px', alignContent:'center'}}>
@@ -23,24 +36,21 @@ export default class LoginComponent extends React.Component{
                             </div>
                         </div>
                         <div className="card-body">
-                            <form>
+                        <form id='loginForm' onSubmit={this.loginUser} encType='multipart/form-data'>
                                 <div className="input-group form-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"><i className="fas fa-user"></i></span>
                                     </div>
-                                    <input type="text" className="form-control" placeholder="username" />
+                                    <input type="email" className="form-control" placeholder="Email" name='email' />
                                 </div>
                                 <div className="input-group form-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"><i className="fas fa-key"></i></span>
                                     </div>
-                                    <input type="password" className="form-control" placeholder="password" />
-                                </div>
-                                <div className="row align-items-center remember">
-                                    <input type="checkbox" />Remember Me
+                                    <input type="password" className="form-control" placeholder="password" name='password' />
                                 </div>
                                 <div className="form-group">
-                                    <input type="submit" value="Login" className="btn float-right login_btn" />
+                                    <button type="submit" className="btn btn-primary btn-block">Iniciar sesión</button>
                                 </div>
                             </form>
                         </div>

@@ -12,7 +12,27 @@ export function getProducts() {
         })
 }
 
+export function loginUserToApi(user) {
+    /*
+    for (var key of user.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
+    */
+    return axios.post(`${BASE_URL}/login`, user)
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        });
+}
+
 export function addUserToApi(user) {
+    /*
+    for (var key of user.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
+    */
     return axios.post(`${BASE_URL}/signup`, user)
         .then(response => {
             return response.data;

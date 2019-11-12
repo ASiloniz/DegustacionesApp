@@ -214,13 +214,17 @@ app.patch('/degustaciones/:degustacionId', (req, res, next) => {
   });
 });
 
+// ------------------------------------------------------------------
 // USER SIGNUP!!!
+// ------------------------------------------------------------------
 
 const User = require('../mongodb/models/user');
 
 // Utilizaremos el middleware bcrypt para hashear las contraseñas!
 
 app.post('/signup', upload.single('inputSignUpFotoDePerfil'), (req, res, next) => {
+  console.log('SIGNUP!');
+  console.log(req.body.email);
   //Check que el user no había sido creado previamente
   User.find({ email: req.body.email })
   .exec()
@@ -282,6 +286,45 @@ app.delete('/:userId', (req, res, next) => {
       error: err
     });
   });
+});
+
+// ------------------------------------------------------------------
+// USER LOGIN!
+// ------------------------------------------------------------------
+
+app.post('/login', upload.none(), (req, res, next) => {
+  User.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+      console.log(user);
+      
+      if(user.length < 1) {
+        return res.status(401).json({
+          message: 'Auth failed'
+        });
+      }
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+        if(err){
+          return res.status(401).json({
+            message: 'Auth failed'
+          });
+        }
+        if(result){
+          return res.status(200).json({
+            message: 'Auth successful'
+          });
+        }
+        res.status(401).json({
+          message: 'Auth failed'
+        });
+      });
+    })
+    .catch( err => {
+      console.log(`USER LOGIN => ERROR`);
+      res.status(500).json({
+        error: err
+      });
+    });
 });
 
 const PORT = 5000;

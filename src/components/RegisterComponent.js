@@ -7,22 +7,16 @@ export default class RegisterComponent extends React.Component{
         error: undefined
     };
 
-    addDegustacionForm = (e) => {
-        e.preventDefault();
-        console.log(e.target);
-
-        let degustacion = new FormData(e.target);
-        
-        addDegustacion(degustacion);
-        
-    };
-
     addUser = (e) => {
         e.preventDefault();
 
         console.log(e.target);
 
         let user = new FormData(e.target);
+
+        for (var key of user.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
 
         addUserToApi(user);
         
@@ -33,7 +27,7 @@ export default class RegisterComponent extends React.Component{
             <div className="card bg-light">
                 <article className="card-body mx-auto" style={{maxWidth: '800px'}}>
                     <h4 className="card-title mt-3 text-center">Crear Cuenta</h4>
-                    <form id='addDegustacionForm' onSubmit={this.addUser} encType='multipart/form-data'>
+                    <form id='addUserForm' onSubmit={this.addUser} encType='multipart/form-data'>
                         <div className='row'>
                             <div className='col-sm-6 col-lg-6'>
                                 <div className="form-group input-group">
