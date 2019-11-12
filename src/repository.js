@@ -13,7 +13,7 @@ export function getProducts() {
 }
 
 export function addUserToApi(user) {
-    return axios.post(`${BASE_URL}/api/users`, user)
+    return axios.post(`${BASE_URL}/signup`, user)
         .then(response => {
             return response.data;
         })

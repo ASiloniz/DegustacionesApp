@@ -6,6 +6,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const storage = multer.diskStorage({
   destination: function(req, res, callback) {
@@ -107,7 +108,7 @@ app.get(`/degustaciones`, (req, res) => {
       //       });
       //   }
     })
-    .catch( err => {
+    .catch( err => {
       console.log(err);
       res.status(500).json({
         error: err
@@ -207,6 +208,76 @@ app.patch('/degustaciones/:degustacionId', (req, res, next) => {
     res.status(200).json(result);
   })
   .catch(err => {
+    res.status(500).json({
+      error: err
+    });
+  });
+});
+
+// USER SIGNUP!!!
+
+const User = require('../mongodb/models/user');
+
+// Utilizaremos el middleware bcrypt para hashear las contraseñas!
+
+app.post('/signup', upload.single('inputSignUpFotoDePerfil'), (req, res, next) => {
+  //Check que el user no había sido creado previamente
+  User.find({ email: req.body.email })
+  .exec()
+  .then(user => {
+    if (user.length >= 1) {
+      return res.status(422).json({
+        message: 'Mail exists!'
+      });
+    }
+    else{
+      bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if(err){
+          return res.status(500).json({
+            error: err
+          });
+        } else{
+          const user = new User({
+            _id: new mongoose.Types.ObjectId(),
+            idUsuario: req.body.idUsuario,
+            email: req.body.email,
+            password: hash,
+            nombre: req.body.name,
+            apellidos: req.body.apellidos,
+            dateOfBirth: req.body.dateOfBirth,
+            nacionalidad: req.body.nacionalidad,
+            region: req.body.region,
+            descripcion: req.body.descripcion,
+            inputSignUpFotoDePerfil: `http://localhost:5000/${req.file.path}`
+          });
+          user
+            .save()
+            .then(result => {
+              console.log(`USER CREATION=>SUCCESFUL!`);
+              res.status(201).json(result);
+            })
+            .catch(err => {
+              console.log(`USER CREATION ERROR!`)
+              res.status(500).json({
+                error: err
+              });
+            });
+        }
+      });
+    }
+  })
+});
+
+app.delete('/:userId', (req, res, next) => {
+  const id = req.params.userId;
+  User.remove({_id: id}) 
+  .exec()
+  .then(result => {
+    console.log(`USER DELETED => SUCCESSFUL!`);
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    console.log(`USER DELETED => ERROR`);
     res.status(500).json({
       error: err
     });

@@ -7,35 +7,24 @@ export default class RegisterComponent extends React.Component{
         error: undefined
     };
 
+    addDegustacionForm = (e) => {
+        e.preventDefault();
+        console.log(e.target);
+
+        let degustacion = new FormData(e.target);
+        
+        addDegustacion(degustacion);
+        
+    };
+
     addUser = (e) => {
         e.preventDefault();
-        let user = {};
-        let id = e.target.elements.id.value.trim();
-        let nombre = e.target.elements.nombre.value.trim();
-        let apellidos = e.target.elements.apellidos.value.trim();
-        let dateOfBirth = e.target.elements.dateOfBirth.value.trim();
-        let email = e.target.elements.email.value.trim();
-        let nacionalidad = e.target.elements.nacionalidad.value.trim();
-        let region = e.target.elements.region.value.trim();
-        let descripcion = e.target.elements.descripcion.value.trim();
-        let fotoDePerfil = e.target.elements.fotoDePerfil.value.trim();
-        let password = e.target.elements.password.value.trim();
 
-        user = {
-            id,
-            nombre,
-            apellidos,
-            dateOfBirth,
-            email,
-            nacionalidad,
-            region,
-            descripcion,
-            fotoDePerfil,
-            password,
-        };
+        console.log(e.target);
+
+        let user = new FormData(e.target);
 
         addUserToApi(user);
-        console.log(user);
         
     };
 
@@ -44,14 +33,14 @@ export default class RegisterComponent extends React.Component{
             <div className="card bg-light">
                 <article className="card-body mx-auto" style={{maxWidth: '800px'}}>
                     <h4 className="card-title mt-3 text-center">Crear Cuenta</h4>
-                    <form onSubmit={this.addUser}>
+                    <form id='addDegustacionForm' onSubmit={this.addUser} encType='multipart/form-data'>
                         <div className='row'>
                             <div className='col-sm-6 col-lg-6'>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="fa fa-user"></i> </span>
                                     </div>
-                                    <input name="id" className="form-control" placeholder="ID de Usuario" type="text" />
+                                    <input name="idUsuario" className="form-control" placeholder="ID de Usuario" type="text" />
                                 </div>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
@@ -295,7 +284,7 @@ export default class RegisterComponent extends React.Component{
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="far fa-file-alt"></i> </span>
                                     </div>
-                                    <input className="form-control" type="file" name="fotoDePerfil" />
+                                    <input className="form-control" type="file" name="inputSignUpFotoDePerfil" />
                                 </div>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
