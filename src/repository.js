@@ -23,6 +23,7 @@ export function loginUserToApi(user) {
             return response.data;
         })
         .catch(err => {
+            alert('Email y contraseña no válidos');
             console.log(err.response ? err.response.data:err)
         });
 }
@@ -43,7 +44,8 @@ export function addUserToApi(user) {
 }
 
 export function getDegustaciones() {
-    return axios.get(`${BASE_URL}/degustaciones`)
+    return axios.get(
+        `${BASE_URL}/degustaciones`)
         .then(response => {
             return response.data;
         })
@@ -79,4 +81,14 @@ export function addDegustacion(degustacion) {
         .catch(err => {
             console.log(err.response ? err.response.data:err)
         });
+}
+
+export function getUserById(id) {
+    return axios.get(`${BASE_URL}/users/${id}`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        })
 }

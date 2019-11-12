@@ -4,12 +4,14 @@ import { getDegustaciones } from '../repository';
 import { Link } from 'react-router-dom';
 import SearchField from 'react-search-field';
 import {NavLink} from "react-router-dom";
+import HeaderUser from './HeaderUser';
 
 
 export default class DegustacionesList extends React.Component {
     state = {
         degustaciones: [],
-        searchedDegustaciones: []
+        searchedDegustaciones: [],
+        refreshCounter: 0
     }
 
     componentDidMount() {
@@ -18,6 +20,11 @@ export default class DegustacionesList extends React.Component {
         });
     }
 
+    addDegustacionOnClick = () => {
+        this.props.history.push({
+            pathname: '/addDegustacion'
+        });
+    };
 
     render() {
         const degustaciones =  this.state.degustaciones;
@@ -26,19 +33,21 @@ export default class DegustacionesList extends React.Component {
         console.log(degustacionesList);
 
         return (
-            <div className=" container">
-                <h3 className="card-title">Degustaciones</h3>
-                <button className='btn btn-outline-primary'>
-                    <NavLink activeClassName='' to="/addDegustacion" exact={true}>Añadir Degustación</NavLink>
-                </button>
-                <div className='row'>
-                    {degustacionesList &&
-                        degustacionesList.map((degustacion, index) => (
-                            <Degustacion degustacion={degustacion} key={index} />
-                        ))
-                    }
+            <div>
+                <HeaderUser userData={this.props.location.userData} token={this.props.location.token} />
+                <div className="container">
+                    <h3 className="card-title">Degustaciones</h3>
+                    <button className="btn btn-outline-success" onClick={this.addDegustacionOnClick}>Añadir Degustación</button>
+                    <div className='row'>
+                        {degustacionesList &&
+                            degustacionesList.map((degustacion, index) => (
+                                <Degustacion degustacion={degustacion} key={index} />
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
+
         );
     }
 }

@@ -10,19 +10,21 @@ import RegisterComponent from '../components/RegisterComponent';
 import ForgetPassComponent from '../components/ForgetPassComponent';
 import DegustacionesList from '../components/DegustacionesList';
 import AddDegustacionComponent from '../components/AddDegustacionComponent';
+import EditarPerfilVacioComponent from '../components/EditarPerfilVacioComponent';
 
 const AppRouter = () => (
     <BrowserRouter>
         <div>
             <Header />
             <Switch>
-                <Route path="/" component={ProductList} exact={true} />
+                <Route path="/" component={LoginComponent} exact={true} />
                 <Route path="/degustaciones" component={DegustacionesList} />
                 <Route path="/login" component={LoginComponent} />
                 <Route path="/register" component={RegisterComponent} />
                 <Route path="/passwordRecovery" component={ForgetPassComponent} />
                 <Route path="/addDegustacion" component={AddDegustacionComponent} />
                 <Route path="/cart" component={Cart} />
+                <Route path="/editarPerfil" component={EditarPerfilVacioComponent} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>

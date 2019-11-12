@@ -14,7 +14,12 @@ export default class AddDegustacionComponent extends React.Component{
         let degustacion = new FormData(e.target);
         
         addDegustacion(degustacion);
-        
+
+        this.props.history.push({
+            pathname: '/degustaciones'
+        });
+    
+        window.location.reload();
     };
 
     render(){

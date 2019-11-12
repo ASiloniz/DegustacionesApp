@@ -9,17 +9,22 @@ export default class RegisterComponent extends React.Component{
 
     addUser = (e) => {
         e.preventDefault();
-
         console.log(e.target);
-
         let user = new FormData(e.target);
 
         for (var key of user.entries()) {
             console.log(key[0] + ', ' + key[1]);
         }
 
-        addUserToApi(user);
-        
+        addUserToApi(user).then(result => {
+            console.log(result);
+            if(result){
+                this.props.history.push({
+                    pathname: '/login'
+                });
+            }
+        });
+
     };
 
     render(){
@@ -294,7 +299,7 @@ export default class RegisterComponent extends React.Component{
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary btn-block"> Crear Cuenta  </button>
+                        <button type="submit" className="btn btn-primary btn-block">Crear Cuenta</button>
                         <p className="text-center">¿Ya tienes cuenta? <NavLink activeClassName="is-active" to="/login" exact={true}>Iniciar Sesión</NavLink>
                         </p>
                     </form>

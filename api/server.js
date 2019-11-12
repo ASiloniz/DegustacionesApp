@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const checkAuth = require('./middleware/check-auth');
 
 //Malas prácticas hacer esto, se debe hacer en un fichero nodemon.json
 const JWT_KEY = 'secret';
@@ -37,6 +38,7 @@ const upload = multer({
   },
   fileFilter
 });
+
 let dirname = __dirname.slice(0, -3);
 console.log(dirname);
 console.log(path.join(dirname, 'uploads'));
@@ -80,7 +82,7 @@ const Degustacion = require('../mongodb/models/degustacion');
 * GET => localhost:5000/degustaciones
 */
 
-app.get(`/degustaciones`, (req, res) => {
+app.get(`/degustaciones`, checkAuth, (req, res) => {
   Degustacion.find()
     .exec()
     .then(docs => {
@@ -104,13 +106,7 @@ app.get(`/degustaciones`, (req, res) => {
           };
         })
       };
-      //   if (docs.length >= 0) {
       res.status(200).json(response);
-      //   } else {
-      //       res.status(404).json({
-      //           message: 'No entries found'
-      //       });
-      //   }
     })
     .catch( err => {
       console.log(err);
@@ -245,12 +241,14 @@ app.post('/signup', upload.single('inputSignUpFotoDePerfil'), (req, res, next) =
             error: err
           });
         } else{
+          console.log(req.body);
           const user = new User({
             _id: new mongoose.Types.ObjectId(),
             idUsuario: req.body.idUsuario,
+            nombre: req.body.nombre,
             email: req.body.email,
             password: hash,
-            nombre: req.body.name,
+            nombre: req.body.nombre,
             apellidos: req.body.apellidos,
             dateOfBirth: req.body.dateOfBirth,
             nacionalidad: req.body.nacionalidad,
@@ -300,8 +298,6 @@ app.post('/login', upload.none(), (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      console.log(user);
-      
       if(user.length < 1) {
         return res.status(401).json({
           message: 'Auth failed'
@@ -336,6 +332,56 @@ app.post('/login', upload.none(), (req, res, next) => {
     })
     .catch( err => {
       console.log(`USER LOGIN => ERROR`);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+// GET ALL USERS (FOR DEVELOPMENT PURPOSES ONLY)
+
+app.get(`/users`, (req, res) => {
+  User.find()
+    .exec()
+    .then(docs => {
+      const response = {
+        count: docs.length,
+        users: docs.map(doc => {
+          console.log(doc);
+          return {
+            _id: doc._id,
+            email: doc.email,
+            password: doc.password
+          };
+        })
+      };
+      res.status(200).json(response);
+    })
+    .catch( err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    })
+});
+
+// GET un user por ID ( interesante para el futuro ;) )
+app.get(`/users/:userId`, (req, res) => {
+  const id = req.params.userId;
+  User.findById(id)
+    .exec()
+    .then(doc => {
+      console.log(`GET USER BY ID =>${doc}`);
+      if(doc){
+        res.status(200).json(doc);
+      } else{
+        res.status(404).json({
+          message: `No existe USER con el ID:${id}`
+        });
+      }
+    })
+    .catch(err => {
+      console.log(`GET USER by id error =>${err}`);
       res.status(500).json({
         error: err
       });
