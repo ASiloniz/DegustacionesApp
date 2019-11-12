@@ -7,6 +7,10 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+//Malas prácticas hacer esto, se debe hacer en un fichero nodemon.json
+const JWT_KEY = 'secret';
 
 const storage = multer.diskStorage({
   destination: function(req, res, callback) {
@@ -310,8 +314,19 @@ app.post('/login', upload.none(), (req, res, next) => {
           });
         }
         if(result){
+          const token = jwt.sign(
+            {
+              email: user[0].email,
+              _id: user[0]._id
+            },
+            JWT_KEY,
+            {
+              expiresIn: '1h'
+            }
+          );
           return res.status(200).json({
-            message: 'Auth successful'
+            message: 'Auth successful',
+            token: token
           });
         }
         res.status(401).json({
