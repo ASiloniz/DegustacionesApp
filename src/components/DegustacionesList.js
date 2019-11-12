@@ -31,11 +31,13 @@ export default class DegustacionesList extends React.Component {
                 <button className='btn btn-outline-primary'>
                     <NavLink activeClassName='' to="/addDegustacion" exact={true}>Añadir Degustación</NavLink>
                 </button>
-                {degustacionesList &&
-                    degustacionesList.map((degustacion, index) => (
-                        <Degustacion degustacion={degustacion} key={index} />
-                    ))
-                }
+                <div className='row'>
+                    {degustacionesList &&
+                        degustacionesList.map((degustacion, index) => (
+                            <Degustacion degustacion={degustacion} key={index} />
+                        ))
+                    }
+                </div>
             </div>
         );
     }
