@@ -1,4 +1,7 @@
 import React from 'react';
+import { eliminarDegustacion, getDegustaciones } from '../repository';
+
+
 
 const CartItem = (props) => {
     const item = props.item;
@@ -10,7 +13,7 @@ const CartItem = (props) => {
                 <span className="card-text text-success"><small>Quantity: </small>{item.quantityRequired}</span>
                 <button className="btn btn-sm btn-warning float-right" 
                     onClick={(e) => {
-                        props.deleteItem(item.name)
+                        eliminarDegustacion("5dee4258739d88109915ad70");
                     }}>
                 Remove from Cart
                 </button>

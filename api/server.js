@@ -75,6 +75,7 @@ Server.js se encarga de proveer en un API la información solicitada a la DB.
 
 // Modelo del documento Degustación que se almacenará en la DB.
 const Degustacion = require('../mongodb/models/degustacion');
+const Local = require('../mongodb/models/local');
 
 // MONGODB CRUD FUNCTIONS
 
@@ -387,6 +388,89 @@ app.get(`/users/:userId`, (req, res) => {
       });
     });
 });
+
+
+// ------------------------------------------------------------------
+// ADD LOCAL!
+// ------------------------------------------------------------------
+
+
+/* GET todos los locales:
+* GET => localhost:5000/locales
+*/
+
+app.get(`/locales`, checkAuth, (req, res) => {
+  Local.find()
+    .exec()
+    .then(docs => {
+      const response = {
+        count: docs.length,
+        locales: docs.map(doc => {
+          return {
+            _id: doc._id,
+            nombre: doc.nombre,
+            local: doc.local,
+            review: doc.review,
+            request: {
+              type: 'GET',
+              url: `http://localhost:5000/locales/${doc._id}`
+            }
+          };
+        })
+      };
+      res.status(200).json(response);
+    })
+    .catch( err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    })
+});
+
+app.post('/locales', upload.none(), (req, res, next) => {
+  console.log('req.body!');
+  console.log(req.body);
+  const local = new Local({
+    _id: mongoose.Types.ObjectId(),
+    nombre: req.body.nombre,
+    local: req.body.local,
+    review: req.body.review
+  });
+
+  // SAVE IN DB!
+  local
+    .save()
+    .then(result => {
+      console.log(`Saved LOCAL in DB RESULT:${result}`);
+      res.status(201).json({
+        message:'Handling POST requests to /api/degustaciones',
+        createdLocal: local
+      });
+    })
+    .catch(err => {
+      console.log(`Saved LOCAL in DB ERROR:${err}`);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+// ELIMINAR LOCAL
+app.delete('/locales/:localId', (req, res, next) => {
+  const id = req.params.localId;
+  Local.remove({_id: id})
+  .exec()
+  .then(result => {
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    res.status(500).json({
+      error: err
+    });
+  });
+});
+
 
 const PORT = 5000;
 

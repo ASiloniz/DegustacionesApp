@@ -83,6 +83,46 @@ export function addDegustacion(degustacion) {
         });
 }
 
+export function addLocal(local) {
+    console.log(`ADDING Local:`);
+    console.log(local);
+    return axios.post(
+        `${BASE_URL}/locales`,
+        local,
+        {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        });
+}
+
+export function getLocales() {
+    return axios.get(
+        `${BASE_URL}/locales`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        })
+}
+
+export function eliminarLocal(id) {
+    return axios.delete(`${BASE_URL}/locales/${id}`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.log(err.response ? err.response.data:err)
+        })
+}
+
 export function getUserById(id) {
     return axios.get(`${BASE_URL}/users/${id}`)
         .then(response => {

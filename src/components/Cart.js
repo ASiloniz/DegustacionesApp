@@ -2,10 +2,20 @@ import React from 'react';
 import CartItem from './CartItem';
 import { Link } from 'react-router-dom';
 
+import { eliminarDegustacion, eliminarLocal } from '../repository';
+
+
 export default class Cart extends React.Component{
     state = {
         cart: JSON.parse(localStorage.getItem('cart'))
     };
+
+    onClickBorrador = () => {
+        eliminarLocal("5dee42fcc3a38e10e139f30b");
+        eliminarLocal("5dee43fec3a38e10e139f30c");
+        eliminarLocal("5dee4431c3a38e10e139f30d");
+        eliminarLocal("5dee4545c3a38e10e139f30e");
+    }
 
     handleClearCart = () => {
         this.setState(() => {
@@ -42,6 +52,7 @@ export default class Cart extends React.Component{
         return(
             <div className=" container">
                 <h3 className="card-title">Cart</h3>
+                <button onClick={this.onClickBorrador}>Borrador</button>
                 {cart !== null && 
                     cart.map((cartItem) => <CartItem key={cartItem.id} item={cartItem} deleteItem={this.deleteItem} />)
                 }

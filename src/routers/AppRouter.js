@@ -13,6 +13,8 @@ import AddDegustacionComponent from '../components/AddDegustacionComponent';
 import EditarPerfilVacioComponent from '../components/EditarPerfilVacioComponent';
 import GalardonesList from '../components/GalardonesList';
 import AddFriendComponent from '../components/AddFriendComponent';
+import AddLocalComponent from '../components/AddLocalComponent';
+import LocalesList from '../components/LocalesList';
 
 const AppRouter = () => (
     <BrowserRouter>
@@ -29,6 +31,8 @@ const AppRouter = () => (
                 <Route path="/editarPerfil" component={EditarPerfilVacioComponent} />
                 <Route path="/galardones" component={GalardonesList} />
                 <Route path="/addFriend" component={AddFriendComponent} />
+                <Route path="/addLocal" component={AddLocalComponent} />
+                <Route path="/locales" component={LocalesList} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>

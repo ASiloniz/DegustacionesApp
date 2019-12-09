@@ -30,11 +30,26 @@ const HeaderUser = (props) => {
                     </Link>
                 </li>
 
-                <li class="nav-item active">
+                <li class="nav-item active" style={{marginRight:'20px'}}>
                     <Link to={{
                         pathname: '/addFriend'
                     }}>
                         Añadir Amigo
+                    </Link>
+                </li>
+
+                <li class="nav-item active" style={{marginRight:'20px'}}>
+                    <Link to={{
+                        pathname: '/addLocal'
+                    }}>
+                        Añadir Local
+                    </Link>
+                </li>
+                <li class="nav-item active" style={{marginRight:'20px'}}>
+                    <Link to={{
+                        pathname: '/locales'
+                    }}>
+                        Locales
                     </Link>
                 </li>
             </ul>
