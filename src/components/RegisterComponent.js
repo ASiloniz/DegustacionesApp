@@ -39,7 +39,7 @@ export default class RegisterComponent extends React.Component{
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="fa fa-user"></i> </span>
                                     </div>
-                                    <input name="idUsuario" className="form-control" placeholder="ID de Usuario" type="text" />
+                                    <input name="idUsuario" className="form-control" placeholder="ID de Usuario" type="text" required />
                                 </div>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
@@ -63,7 +63,7 @@ export default class RegisterComponent extends React.Component{
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="fa fa-envelope"></i> </span>
                                     </div>
-                                    <input name="email" className="form-control" placeholder="Email" type="email" />
+                                    <input name="email" className="form-control" placeholder="Email" type="email" required />
                                 </div>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
@@ -283,19 +283,19 @@ export default class RegisterComponent extends React.Component{
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="far fa-file-alt"></i> </span>
                                     </div>
-                                    <input className="form-control" type="file" name="inputSignUpFotoDePerfil" />
+                                    <input className="form-control" type="file" name="inputSignUpFotoDePerfil" required />
                                 </div>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
                                     </div>
-                                    <input className="form-control" placeholder="Crear contraseña" type="password" name='password' />
+                                    <input className="form-control" placeholder="Crear contraseña" type="password" name='password' required />
                                 </div>
                                 <div className="form-group input-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
                                     </div>
-                                    <input className="form-control" placeholder="Repetir contraseña" type="password" />
+                                    <input className="form-control" placeholder="Repetir contraseña" type="password" required />
                                 </div>
                             </div>
                         </div>

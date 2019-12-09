@@ -14,11 +14,19 @@ const HeaderUser = (props) => {
                     </Link>
                 </li>
 
-                <li class="nav-item active">
+                <li class="nav-item active" style={{marginRight:'20px'}}>
                     <Link to={{
                         pathname: '/editarPerfil'
                     }}>
                         Editar Perfil
+                    </Link>
+                </li>
+
+                <li class="nav-item active">
+                    <Link to={{
+                        pathname: '/galardones'
+                    }}>
+                        Galardones
                     </Link>
                 </li>
             </ul>

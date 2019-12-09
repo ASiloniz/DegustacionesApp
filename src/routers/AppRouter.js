@@ -11,6 +11,7 @@ import ForgetPassComponent from '../components/ForgetPassComponent';
 import DegustacionesList from '../components/DegustacionesList';
 import AddDegustacionComponent from '../components/AddDegustacionComponent';
 import EditarPerfilVacioComponent from '../components/EditarPerfilVacioComponent';
+import GalardonesList from '../components/GalardonesList';
 
 const AppRouter = () => (
     <BrowserRouter>
@@ -25,6 +26,7 @@ const AppRouter = () => (
                 <Route path="/addDegustacion" component={AddDegustacionComponent} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/editarPerfil" component={EditarPerfilVacioComponent} />
+                <Route path="/galardones" component={GalardonesList} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>
